@@ -29,13 +29,13 @@ function dw_render_table_shortcode($atts)
     ob_start();
 ?>
     <div class="dw-table-wrapper">
-        <div style="display:flex;justify-content:space-between;background:#0D2C52;color:#fff;padding:10px;">
+        <div class="dw-table-header">
             <strong><?php echo esc_html($title); ?></strong>
             <strong><?php echo esc_html($year); ?></strong>
         </div>
-        <table border="1" cellpadding="5" cellspacing="0" width="100%" style="border-collapse:collapse;width:100%;">
+        <table>
             <thead>
-                <tr>
+                <tr class="dw-header-row">
                     <th>Mês</th>
                     <?php if ($has_valor): ?>
                         <th>Cub Médio</th>
@@ -43,6 +43,7 @@ function dw_render_table_shortcode($atts)
                     <th>Variação</th>
                 </tr>
             </thead>
+
             <tbody>
                 <?php foreach ($rows as $row): ?>
                     <tr>
@@ -64,11 +65,10 @@ function dw_render_table_shortcode($atts)
             <?php endif; ?>
         </table>
         <?php if (!empty($source)): ?>
-            <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Fonte: <?php echo esc_html($source); ?></em></p>
+            <p>Fonte: <?php echo esc_html($source); ?></p>
         <?php endif; ?>
     </div>
 <?php
     return ob_get_clean();
 }
 add_shortcode('dw_table', 'dw_render_table_shortcode');
-?>

@@ -2,6 +2,10 @@
   margin-top: 20px;
   font-family: Arial, sans-serif;
   font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 10px;
 }
 
 .dw-table-wrapper table {
@@ -14,7 +18,7 @@
   background-color: #f3f0eb;
 }
 
-.dw-table-wrapper thead {
+.dw-table-wrapper .dw-header-row {
   background-color: #0d2c52;
   color: #f4952d;
 }
@@ -24,6 +28,7 @@
   padding: 8px;
 }
 
+/* Alinhamento das colunas */
 .dw-table-wrapper td:first-child,
 .dw-table-wrapper th:first-child {
   text-align: left;
@@ -53,8 +58,11 @@
   font-weight: bold;
 }
 
+.dw-table-wrapper tfoot td {
+  color: #172f4f;
+}
 .dw-table-wrapper p {
   margin-top: 10px;
-  font-size: 0.9em;
-  color: #666;
+  font-size: 12px;
+  color: #172f4f;
 }
