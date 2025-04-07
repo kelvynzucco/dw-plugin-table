@@ -1,63 +1,51 @@
 .dw-table-wrapper {
-  margin-top: 20px;
   font-family: Arial, sans-serif;
   font-size: 14px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  padding: 10px;
 }
-
 .dw-table-wrapper table {
   width: 100%;
   border-collapse: collapse;
 }
-
 .dw-table-wrapper thead tr,
 .dw-table-wrapper tfoot tr {
   background-color: #f3f0eb;
 }
-
-.dw-table-wrapper .dw-header-row {
-  background-color: #0d2c52;
-  color: #f4952d;
-}
-
 .dw-table-wrapper th,
 .dw-table-wrapper td {
   padding: 8px;
+  color: #0d2c52;
 }
-
-/* Alinhamento das colunas */
+.dw-table-header {
+  color: #f4952d;
+  background: #0d2c52;
+  padding: 12px 10px;
+  display: flex;
+  justify-content: space-between;
+}
 .dw-table-wrapper td:first-child,
 .dw-table-wrapper th:first-child {
   text-align: left;
 }
-
-.dw-table-wrapper td:nth-child(2),
-.dw-table-wrapper th:nth-child(2) {
+.dw-table-wrapper td:nth-child(2):not(:last-child),
+.dw-table-wrapper th:nth-child(2):not(:last-child) {
   text-align: center;
 }
-
-.dw-table-wrapper td:nth-child(3),
-.dw-table-wrapper th:nth-child(3) {
+.dw-table-wrapper td:last-child,
+.dw-table-wrapper th:last-child {
   text-align: right;
 }
-
 .dw-table-wrapper tbody tr {
-  background-color: #fff;
-  color: #0d2c52;
   border-bottom: 1px solid #f3f0eb;
 }
-
 .dw-table-wrapper tbody tr:last-child {
   border-bottom: none;
 }
-
 .dw-table-wrapper tfoot {
   font-weight: bold;
 }
-
 .dw-table-wrapper tfoot td {
   color: #172f4f;
 }
@@ -65,4 +53,16 @@
   margin-top: 10px;
   font-size: 12px;
   color: #172f4f;
+}
+.dw-acumulado-label {
+  font-weight: 200 !important;
+  font-size: 14px !important;
+}
+.dw-acumulado-total {
+  color: #f4952d !important;
+  font-weight: 600;
+  font-size: 14px !important;
+}
+.dw-source {
+  text-align: center;
 }

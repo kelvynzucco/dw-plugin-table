@@ -38,7 +38,7 @@ function dw_render_table_shortcode($atts)
                 <tr class="dw-header-row">
                     <th>Mês</th>
                     <?php if ($has_valor): ?>
-                        <th>Cub Médio</th>
+                        <th>Médio</th>
                     <?php endif; ?>
                     <th>Variação</th>
                 </tr>
@@ -58,14 +58,16 @@ function dw_render_table_shortcode($atts)
             <?php if (!empty($footer)): ?>
                 <tfoot>
                     <tr>
-                        <td colspan="<?php echo $has_valor ? '2' : '1'; ?>"><strong>Acumulado do ano</strong></td>
-                        <td><strong><?php echo esc_html($footer); ?></strong></td>
+                        <td class="dw-acumulado-label" colspan="<?php echo $has_valor ? '2' : '1'; ?>">Acumulado do ano</td>
+                        <td class="dw-acumulado-total">
+                            <?php echo esc_html($footer); ?>
+                        </td>
                     </tr>
                 </tfoot>
             <?php endif; ?>
         </table>
         <?php if (!empty($source)): ?>
-            <p>Fonte: <?php echo esc_html($source); ?></p>
+            <p class="dw-source">Fonte: <?php echo esc_html($source); ?></p>
         <?php endif; ?>
     </div>
 <?php
