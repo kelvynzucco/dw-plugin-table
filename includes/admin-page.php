@@ -16,7 +16,6 @@ add_action('admin_enqueue_scripts', 'dw_admin_enqueue_scripts');
 
 function dw_render_table_meta_box($post)
 {
-    $title = get_post_meta($post->ID, '_dw_table_title', true);
     $year = get_post_meta($post->ID, '_dw_table_year', true);
     $footer = get_post_meta($post->ID, '_dw_table_footer', true);
     $rows = get_post_meta($post->ID, '_dw_table_rows', true);
@@ -56,10 +55,7 @@ function dw_render_table_meta_box($post)
     </style>
 
     <div class="dw-table-admin">
-        <p><strong>Título (esquerda):</strong></p>
-        <input type="text" name="dw_table_title" value="<?php echo esc_attr($title); ?>" class="regular-text" />
-
-        <p><strong>Ano (direita):</strong></p>
+        <p><strong>Ano:</strong></p>
         <input type="text" name="dw_table_year" value="<?php echo esc_attr($year); ?>" class="regular-text" />
 
         <p><strong>Dados da Tabela:</strong></p>
@@ -80,7 +76,7 @@ function dw_render_table_meta_box($post)
                         <td><input type="text" name="dw_table_rows[<?php echo $index; ?>][mes]" value="<?php echo esc_attr($row['mes']); ?>" /></td>
                         <td><input type="text" name="dw_table_rows[<?php echo $index; ?>][valor]" value="<?php echo esc_attr($row['valor']); ?>" /></td>
                         <td><input type="text" name="dw_table_rows[<?php echo $index; ?>][variacao]" value="<?php echo esc_attr($row['variacao']); ?>" /></td>
-                        <td><button type="button" class="button-link dw-remove-row" title="Remover linha">–</button></td>
+                        <td><button type="button" class="button-link dw-remove-row" title="Remover linha">Remover</button></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -144,7 +140,6 @@ function dw_render_table_meta_box($post)
 
 function dw_save_table_meta_box($post_id)
 {
-    update_post_meta($post_id, '_dw_table_title', sanitize_text_field($_POST['dw_table_title'] ?? ''));
     update_post_meta($post_id, '_dw_table_year', sanitize_text_field($_POST['dw_table_year'] ?? ''));
     update_post_meta($post_id, '_dw_table_footer', sanitize_text_field($_POST['dw_table_footer'] ?? ''));
 

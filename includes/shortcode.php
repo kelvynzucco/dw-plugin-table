@@ -10,7 +10,7 @@ function dw_render_table_shortcode($atts)
     $post = get_post($atts['id']);
     if (!$post || $post->post_type !== 'dw_table') return 'Tabela não encontrada.';
 
-    $title = get_post_meta($post->ID, '_dw_table_title', true);
+    $title = get_the_title($atts['id']);
     $year = get_post_meta($post->ID, '_dw_table_year', true);
     $rows = get_post_meta($post->ID, '_dw_table_rows', true);
     $footer = get_post_meta($post->ID, '_dw_table_footer', true);
