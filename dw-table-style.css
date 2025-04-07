@@ -6,6 +6,7 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  overflow-x: auto;
 }
 .dw-table-wrapper table {
   width: 100%;
@@ -17,9 +18,11 @@
 }
 .dw-table-wrapper th,
 .dw-table-wrapper td {
+  font-size: 14px;
   padding: 14px;
   color: #0d2c52;
   background-color: transparent !important;
+  word-break: break-word;
 }
 .dw-table-header {
   color: #f4952d;
