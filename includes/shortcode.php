@@ -14,8 +14,17 @@ function dw_render_table_shortcode($atts)
     $year = get_post_meta($post->ID, '_dw_table_year', true);
     $rows = get_post_meta($post->ID, '_dw_table_rows', true);
     $footer = get_post_meta($post->ID, '_dw_table_footer', true);
+    $source = get_post_meta($post->ID, '_dw_table_source', true);
 
     if (!is_array($rows) || empty($rows)) return 'Nenhum dado disponível.';
+
+    $has_valor = false;
+    foreach ($rows as $row) {
+        if (!empty($row['valor'])) {
+            $has_valor = true;
+            break;
+        }
+    }
 
     ob_start();
 ?>
@@ -28,7 +37,9 @@ function dw_render_table_shortcode($atts)
             <thead>
                 <tr>
                     <th>Mês</th>
-                    <th>Cub Médio</th>
+                    <?php if ($has_valor): ?>
+                        <th>Cub Médio</th>
+                    <?php endif; ?>
                     <th>Variação</th>
                 </tr>
             </thead>
@@ -36,7 +47,9 @@ function dw_render_table_shortcode($atts)
                 <?php foreach ($rows as $row): ?>
                     <tr>
                         <td><?php echo esc_html($row['mes']); ?></td>
-                        <td><?php echo esc_html($row['valor']); ?></td>
+                        <?php if ($has_valor): ?>
+                            <td><?php echo esc_html($row['valor']); ?></td>
+                        <?php endif; ?>
                         <td><?php echo esc_html($row['variacao']); ?></td>
                     </tr>
                 <?php endforeach; ?>
@@ -44,12 +57,15 @@ function dw_render_table_shortcode($atts)
             <?php if (!empty($footer)): ?>
                 <tfoot>
                     <tr>
-                        <td colspan="2"><strong>Acumulado do ano</strong></td>
+                        <td colspan="<?php echo $has_valor ? '2' : '1'; ?>"><strong>Acumulado do ano</strong></td>
                         <td><strong><?php echo esc_html($footer); ?></strong></td>
                     </tr>
                 </tfoot>
             <?php endif; ?>
         </table>
+        <?php if (!empty($source)): ?>
+            <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Fonte: <?php echo esc_html($source); ?></em></p>
+        <?php endif; ?>
     </div>
 <?php
     return ob_get_clean();

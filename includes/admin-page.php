@@ -9,7 +9,7 @@ function dw_admin_enqueue_scripts($hook)
 {
     if ($hook === 'post.php' || $hook === 'post-new.php') {
         wp_enqueue_script('jquery-ui-sortable');
-        wp_enqueue_style('dashicons'); // Ícones do WP
+        wp_enqueue_style('dashicons');
     }
 }
 add_action('admin_enqueue_scripts', 'dw_admin_enqueue_scripts');
@@ -18,6 +18,7 @@ function dw_render_table_meta_box($post)
 {
     $year = get_post_meta($post->ID, '_dw_table_year', true);
     $footer = get_post_meta($post->ID, '_dw_table_footer', true);
+    $source = get_post_meta($post->ID, '_dw_table_source', true);
     $rows = get_post_meta($post->ID, '_dw_table_rows', true);
 
     if (!is_array($rows)) {
@@ -52,6 +53,15 @@ function dw_render_table_meta_box($post)
         .dw-remove-row:hover {
             color: #dc3232;
         }
+
+        .dw-remove-row .dashicons {
+            color: #b32d2e;
+            font-size: 18px;
+        }
+
+        .dw-remove-row:hover .dashicons {
+            color: #dc3232;
+        }
     </style>
 
     <div class="dw-table-admin">
@@ -76,7 +86,12 @@ function dw_render_table_meta_box($post)
                         <td><input type="text" name="dw_table_rows[<?php echo $index; ?>][mes]" value="<?php echo esc_attr($row['mes']); ?>" /></td>
                         <td><input type="text" name="dw_table_rows[<?php echo $index; ?>][valor]" value="<?php echo esc_attr($row['valor']); ?>" /></td>
                         <td><input type="text" name="dw_table_rows[<?php echo $index; ?>][variacao]" value="<?php echo esc_attr($row['variacao']); ?>" /></td>
-                        <td><button type="button" class="button-link dw-remove-row" title="Remover linha">Remover</button></td>
+                        <td>
+                            <button type="button" class="button-link dw-remove-row" title="Remover linha">
+                                <span class="dashicons dashicons-no"></span>
+                            </button>
+                        </td>
+
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -85,6 +100,14 @@ function dw_render_table_meta_box($post)
 
         <p><strong>Acumulado do ano:</strong></p>
         <input type="text" name="dw_table_footer" value="<?php echo esc_attr($footer); ?>" class="regular-text" />
+
+        <p><strong>Fonte:</strong></p>
+        <input type="text" name="dw_table_source" value="<?php echo esc_attr($source); ?>" class="regular-text" />
+
+        <?php if ($post->ID): ?>
+            <p><strong>Shortcode:</strong></p>
+            <input type="text" readonly onclick="this.select();" value="[dw_table id='<?php echo $post->ID; ?>']" style="width: 100%; font-family: monospace; background: #f5f5f5;" />
+        <?php endif; ?>
     </div>
 
     <script>
@@ -97,7 +120,11 @@ function dw_render_table_meta_box($post)
                 <td><input type="text" name="dw_table_rows[${rowCount}][mes]" /></td>
                 <td><input type="text" name="dw_table_rows[${rowCount}][valor]" /></td>
                 <td><input type="text" name="dw_table_rows[${rowCount}][variacao]" /></td>
-                <td><button type="button" class="button-link dw-remove-row" title="Remover linha">–</button></td>
+                <td>
+                    <button type="button" class="button-link dw-remove-row" title="Remover linha">
+                        <span class="dashicons dashicons-no"></span>
+                    </button>
+                </td>
             `;
             table.appendChild(row);
             updateRowIndexes();
@@ -142,6 +169,7 @@ function dw_save_table_meta_box($post_id)
 {
     update_post_meta($post_id, '_dw_table_year', sanitize_text_field($_POST['dw_table_year'] ?? ''));
     update_post_meta($post_id, '_dw_table_footer', sanitize_text_field($_POST['dw_table_footer'] ?? ''));
+    update_post_meta($post_id, '_dw_table_source', sanitize_text_field($_POST['dw_table_source'] ?? ''));
 
     $rows = $_POST['dw_table_rows'] ?? [];
     $clean_rows = [];
