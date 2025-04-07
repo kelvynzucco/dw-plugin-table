@@ -9,6 +9,7 @@ function dw_admin_enqueue_scripts($hook)
 {
     if ($hook === 'post.php' || $hook === 'post-new.php') {
         wp_enqueue_script('jquery-ui-sortable');
+        wp_enqueue_style('dashicons'); // Ícones do WP
     }
 }
 add_action('admin_enqueue_scripts', 'dw_admin_enqueue_scripts');
@@ -24,37 +25,71 @@ function dw_render_table_meta_box($post)
         $rows = [];
     }
 ?>
-    <p><strong>Título (esquerda):</strong></p>
-    <input type="text" name="dw_table_title" value="<?php echo esc_attr($title); ?>" style="width: 100%;" />
+    <style>
+        .dw-table-admin input[type="text"] {
+            width: 100%;
+        }
 
-    <p><strong>Ano (direita):</strong></p>
-    <input type="text" name="dw_table_year" value="<?php echo esc_attr($year); ?>" style="width: 100%;" />
+        .dw-table-admin .dashicons-move {
+            cursor: move;
+            font-size: 18px;
+            line-height: 1.5;
+        }
 
-    <p><strong>Dados da Tabela:</strong></p>
-    <table id="dw-table-rows" style="width: 100%; border-spacing: 10px;">
-        <thead>
-            <tr>
-                <th>Mês</th>
-                <th>Valor Médio</th>
-                <th>Variação</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($rows as $index => $row): ?>
+        .dw-table-admin button {
+            margin: 0;
+        }
+
+        .dw-table-admin table td,
+        .dw-table-admin table th {
+            vertical-align: middle;
+            padding: 8px;
+        }
+
+        .dw-remove-row {
+            color: #b32d2e;
+        }
+
+        .dw-remove-row:hover {
+            color: #dc3232;
+        }
+    </style>
+
+    <div class="dw-table-admin">
+        <p><strong>Título (esquerda):</strong></p>
+        <input type="text" name="dw_table_title" value="<?php echo esc_attr($title); ?>" class="regular-text" />
+
+        <p><strong>Ano (direita):</strong></p>
+        <input type="text" name="dw_table_year" value="<?php echo esc_attr($year); ?>" class="regular-text" />
+
+        <p><strong>Dados da Tabela:</strong></p>
+        <table id="dw-table-rows" class="widefat fixed striped">
+            <thead>
                 <tr>
-                    <td><input type="text" name="dw_table_rows[<?php echo $index; ?>][mes]" value="<?php echo esc_attr($row['mes']); ?>" /></td>
-                    <td><input type="text" name="dw_table_rows[<?php echo $index; ?>][valor]" value="<?php echo esc_attr($row['valor']); ?>" /></td>
-                    <td><input type="text" name="dw_table_rows[<?php echo $index; ?>][variacao]" value="<?php echo esc_attr($row['variacao']); ?>" /></td>
-                    <td><button type="button" class="dw-remove-row" style="background:none;border:none;font-size:18px;color:red;cursor:pointer;">–</button></td>
+                    <th style="width:30px;"></th>
+                    <th>Mês</th>
+                    <th>Valor Médio</th>
+                    <th>Variação</th>
+                    <th style="width:30px;"></th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <p><button type="button" onclick="dwAddRow()">+ Adicionar linha</button></p>
+            </thead>
+            <tbody>
+                <?php foreach ($rows as $index => $row): ?>
+                    <tr>
+                        <td class="dw-drag-handle"><span class="dashicons dashicons-move"></span></td>
+                        <td><input type="text" name="dw_table_rows[<?php echo $index; ?>][mes]" value="<?php echo esc_attr($row['mes']); ?>" /></td>
+                        <td><input type="text" name="dw_table_rows[<?php echo $index; ?>][valor]" value="<?php echo esc_attr($row['valor']); ?>" /></td>
+                        <td><input type="text" name="dw_table_rows[<?php echo $index; ?>][variacao]" value="<?php echo esc_attr($row['variacao']); ?>" /></td>
+                        <td><button type="button" class="button-link dw-remove-row" title="Remover linha">–</button></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <p><button type="button" class="button button-secondary" onclick="dwAddRow()">+ Adicionar linha</button></p>
 
-    <p><strong>Acumulado do ano:</strong></p>
-    <input type="text" name="dw_table_footer" value="<?php echo esc_attr($footer); ?>" style="width: 100%;" />
+        <p><strong>Acumulado do ano:</strong></p>
+        <input type="text" name="dw_table_footer" value="<?php echo esc_attr($footer); ?>" class="regular-text" />
+    </div>
 
     <script>
         function dwAddRow() {
@@ -62,10 +97,11 @@ function dw_render_table_meta_box($post)
             const rowCount = table.rows.length;
             const row = document.createElement('tr');
             row.innerHTML = `
+                <td class="dw-drag-handle"><span class="dashicons dashicons-move"></span></td>
                 <td><input type="text" name="dw_table_rows[${rowCount}][mes]" /></td>
                 <td><input type="text" name="dw_table_rows[${rowCount}][valor]" /></td>
                 <td><input type="text" name="dw_table_rows[${rowCount}][variacao]" /></td>
-                <td><button type="button" class="dw-remove-row" style="background:none;border:none;font-size:18px;color:red;cursor:pointer;">–</button></td>
+                <td><button type="button" class="button-link dw-remove-row" title="Remover linha">–</button></td>
             `;
             table.appendChild(row);
             updateRowIndexes();
@@ -85,6 +121,7 @@ function dw_render_table_meta_box($post)
 
         jQuery(function($) {
             $('#dw-table-rows tbody').sortable({
+                handle: '.dw-drag-handle',
                 helper: fixHelper,
                 stop: updateRowIndexes
             });
@@ -127,4 +164,3 @@ function dw_save_table_meta_box($post_id)
     update_post_meta($post_id, '_dw_table_rows', $clean_rows);
 }
 add_action('save_post', 'dw_save_table_meta_box');
-?>
