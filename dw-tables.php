@@ -18,7 +18,7 @@ require_once DW_TABLES_PATH . 'includes/shortcode.php';
 function dw_register_table_post_type()
 {
     register_post_type('dw_table', [
-        'label' => 'Tabelas',
+        'label' => 'Indicadores',
         'public' => false,
         'show_ui' => true,
         'menu_icon' => 'dashicons-editor-table',

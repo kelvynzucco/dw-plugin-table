@@ -1,5 +1,4 @@
 .dw-table-wrapper {
-  border: 1px solid #ddd;
   margin-top: 20px;
   font-family: Arial, sans-serif;
   font-size: 14px;
@@ -10,20 +9,47 @@
   border-collapse: collapse;
 }
 
+.dw-table-wrapper thead tr,
+.dw-table-wrapper tfoot tr {
+  background-color: #f3f0eb;
+}
+
 .dw-table-wrapper thead {
   background-color: #0d2c52;
-  color: #fff;
+  color: #f4952d;
 }
 
 .dw-table-wrapper th,
 .dw-table-wrapper td {
-  border: 1px solid #ccc;
   padding: 8px;
+}
+
+.dw-table-wrapper td:first-child,
+.dw-table-wrapper th:first-child {
   text-align: left;
 }
 
+.dw-table-wrapper td:nth-child(2),
+.dw-table-wrapper th:nth-child(2) {
+  text-align: center;
+}
+
+.dw-table-wrapper td:nth-child(3),
+.dw-table-wrapper th:nth-child(3) {
+  text-align: right;
+}
+
+.dw-table-wrapper tbody tr {
+  background-color: #fff;
+  color: #0d2c52;
+  border-bottom: 1px solid #f3f0eb;
+}
+
+.dw-table-wrapper tbody tr:last-child {
+  border-bottom: none;
+}
+
 .dw-table-wrapper tfoot {
-  background-color: #f5f5f5;
   font-weight: bold;
 }
 
