@@ -30,8 +30,8 @@ function dw_render_table_shortcode($atts)
 ?>
     <div class="dw-table-wrapper">
         <div class="dw-table-header">
-            <strong><?php echo esc_html($title); ?></strong>
-            <strong><?php echo esc_html($year); ?></strong>
+            <span><?php echo esc_html($title); ?></span>
+            <span><?php echo esc_html($year); ?></span>
         </div>
         <table>
             <thead>
@@ -67,7 +67,7 @@ function dw_render_table_shortcode($atts)
             <?php endif; ?>
         </table>
         <?php if (!empty($source)): ?>
-            <p class="dw-source">Fonte: <?php echo esc_html($source); ?></p>
+            <p class="dw-source">Fonte <?php echo esc_html($source); ?></p>
         <?php endif; ?>
     </div>
 <?php

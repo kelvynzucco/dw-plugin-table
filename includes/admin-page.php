@@ -101,7 +101,7 @@ function dw_render_table_meta_box($post)
         <p><strong>Acumulado do ano:</strong></p>
         <input type="text" name="dw_table_footer" value="<?php echo esc_attr($footer); ?>" class="regular-text" />
 
-        <p><strong>Fonte:</strong></p>
+        <p><strong>Fonte</strong></p>
         <input type="text" name="dw_table_source" value="<?php echo esc_attr($source); ?>" class="regular-text" />
 
         <?php if ($post->ID): ?>

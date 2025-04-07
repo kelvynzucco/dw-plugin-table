@@ -3,7 +3,7 @@
 /**
  * Plugin Name: DW Engenharia Tables
  * Description: Crie tabelas de Indicadores Financeiros.
- * Version: 1.0.6
+ * Version: 1.1.5
  * Author: G2 Digital
  */
 
